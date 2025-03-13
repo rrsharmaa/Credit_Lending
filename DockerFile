@@ -5,7 +5,7 @@ FROM apache/spark
 WORKDIR /app
 
 # Copy the Python scripts into the container at /app/src
-COPY ./src /app/src
+COPY ./ETL /app/src
 
 # Copy the main.py script and other root-level files needed at runtime into /app (not /app/src)
 COPY main.py .
