@@ -1,10 +1,11 @@
 import unittest
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, explode, split, lit, sum as sum_
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, ArrayType, DoubleType
+from pyspark.sql.types import StructType, StructField, StringType, ArrayType, DoubleType
+
+from ETL.transformation import evaluate_collateral_value
 
 
-class DataProcessingTests(unittest.TestCase):
+class TestCreditLending(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.spark = SparkSession.builder \
@@ -17,12 +18,12 @@ class DataProcessingTests(unittest.TestCase):
         clients_data = [("1", "Client1"), ("2", "Client2")]
         clients_df = self.spark.createDataFrame(clients_data, ["Account_ID", "Client_ID"])
 
-        collaterals_data = [("1", "AAPL:10,MSFT:5"), ("2", "AAPL:15,GOOGL:8")]
+        collaterals_data = [("1", "ABCD:10, XYZA:21"), ("2", "JKLM:12, ABCD:23")]
         collaterals_df = self.spark.createDataFrame(collaterals_data, ["Account_ID", "Stocks"])
 
-        stocks_data = [("2024-02-25", [{"symbol": "AAPL", "price": 150.5},
-                                       {"symbol": "MSFT", "price": 250.75},
-                                       {"symbol": "GOOGL", "price": 2750}])]
+        stocks_data = [("2024-02-25", [{"symbol": "ABCD", "price": 190.5},
+                                       {"symbol": "XYZA", "price": 210.65},
+                                       {"symbol": "JKLM", "price": 278.50}])]
         stocks_schema = StructType([
             StructField("date", StringType(), True),
             StructField("stocks", ArrayType(
@@ -35,7 +36,7 @@ class DataProcessingTests(unittest.TestCase):
         stocks_df = self.spark.createDataFrame(stocks_data, stocks_schema)
 
         # Assume calculate_collateral_value function exists and is imported correctly
-        result_df = calculate_collateral_value(clients_df, collaterals_df, stocks_df)
+        result_df = evaluate_collateral_value(clients_df, collaterals_df, stocks_df)
 
         # Define expected schema and data
         expected_data = [
