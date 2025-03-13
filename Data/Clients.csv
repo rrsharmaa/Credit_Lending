@@ -1,4 +1,5 @@
-Client_ID,Account_ID,Profile_name,Profile_age,Profile_dateofbirth,Address,Corporate_Information
-bdd640fb,6c307511,Amber Perez,58,1973-07-21,""884 Hurst Locks, Jeffreyberg, NM 12416"",Pearson PLC
-23b8c1e9,371ecd7b,Bobby Hall,25,1997-10-16,""26916 Carlson Mountain, Tashatown, VA 15515"",Novak and Sons
-bd9c66b3,1a2a73ed,Donald Reid,19,1980-08-10,""514 Moore Alley Suite 828, Port Colleenhaven, ID 20533"",Russell Group
+| Client_ID | Account_ID | Profile_name | Profile_age | Profile_dateofbirth | Address | Corporate_Information |
+|-----------|------------|--------------|-------------|----------------------|---------|-----------------------|
+| bdd640fb | 6c307511 | Amber Perez | 58 | 1973-07-21 | "884 Hurst Locks, Jeffreyberg, NM 12416" | Pearson PLC |
+| 23b8c1e9 | 371ecd7b | Bobby Hall | 25 | 1997-10-16 | "26916 Carlson Mountain, Tashatown, VA 15515" | Novak and Sons |
+| bd9c66b3 | 1a2a73ed | Donald Reid | 19 | 1980-08-10 | "514 Moore Alley Suite 828, Port Colleenhaven, ID 20533" | Russell Group |
