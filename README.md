@@ -25,7 +25,7 @@ Ensure you've got the following tools and environments set up:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/pgupta119/data_pipeline_abn.git
+   git clone https://github.com/rrsharmaa/Credit_Lending.git
    ```
 
 2. **Set up and activate your virtual environment**:
