@@ -1,4 +1,4 @@
-| Column1 | Column2 | Column3 |
-|---------|---------|---------|
-| Data1   | Data2   | Data3   |
-| Data4   | Data5   | Data6   |
+Account_ID,Savings,Cars,Stocks
+eb5cf467,9935,Honda City 2021,36
+0e8fa8e0,2424,Honda Accord 2020,10
+d9f195d0,7912,BMW,2021,21
