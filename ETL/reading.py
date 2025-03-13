@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, ArrayType
 
-from logger import setup_logger 
+from logger import setup_logger
 from constants import LOG_FILE
 # Set up logger
 logger = setup_logger(LOG_FILE)
