@@ -1,11 +1,17 @@
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, trim, udf
-from pyspark.sql.types import StringType, FloatType
-
+from pyspark.sql.functions import col, trim
 
 class QualityDataCheck:
     def __init__(self, dataframe):
         self.dataframe = dataframe
+
+    def run_quality_checks(self):
+        """Placeholder for running predefined data quality checks."""
+        # Implement specific data quality checks (nulls, data type validations, etc.)
+        return self
+
+    def get_dataframe(self):
+        """Return the enhanced DataFrame."""
+        return self.dataframe
 
     def trim_extra_spaces(self, columns):
         """Trim extra spaces from specified columns."""
@@ -23,11 +29,5 @@ class QualityDataCheck:
         self.dataframe = self.dataframe.withColumn(column, mapping_function(col(column)))
         return self
 
-    def run_quality_checks(self):
-        """Placeholder for running predefined data quality checks."""
-        # Implement specific data quality checks (nulls, data type validations, etc.)
-        return self
 
-    def get_dataframe(self):
-        """Return the enhanced DataFrame."""
-        return self.dataframe
+
