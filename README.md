@@ -31,8 +31,8 @@ Ensure you've got the following tools and environments set up:
 2. **Set up and activate your virtual environment**:
 
    ```bash
-   python3 -m venv data_pipeline_abn 
-   source data_pipeline_abn/bin/activate
+   python3 -m venv Credit_Lending 
+   source Credit_Lending/bin/activate
    ```
 
 3. **Install necessary packages**:
@@ -67,7 +67,7 @@ Ensure you've got the following tools and environments set up:
 
    ```bash
    # mounr the data from data folder to docker container so use the your path
-   docker run --name my-spark-job -v add_your_directory/data_pipeline_abn/data:/app/data data_pipeline_abn
+   docker run --name my-spark-job -v add_your_directory/Credit_Lending/data:/app/data Credit_Lending
 
 
 
