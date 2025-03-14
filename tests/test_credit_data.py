@@ -2,7 +2,7 @@ import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType, DoubleType
 
-from src.transformation import evaluate_collateral_value
+from etl.transformation import evaluate_collateral_value
 
 
 class TestCreditLending(unittest.TestCase):
