@@ -1,4 +1,4 @@
-# THE DATA PIPELINE PROJECT
+# THE Credit Lending Project
 
 This project is a data pipeline application built with PySpark for data processing tasks. It ingests data from various sources, performs necessary transformations, and stores the processed data.
 
@@ -31,8 +31,8 @@ Ensure you've got the following tools and environments set up:
 2. **Set up and activate your virtual environment**:
 
    ```bash
-   python3 -m venv Credit_Lending 
-   source Credit_Lending/bin/activate
+   python3 -m venv venv 
+   source venv/bin/activate
    ```
 
 3. **Install necessary packages**:
@@ -47,7 +47,7 @@ Ensure you've got the following tools and environments set up:
    python3 main.py
    ```
 
-   - **Output:** Files will be saved to the `data/output/` directory.
+   - **Output:** Files will be saved to the `Data/output/` directory.
 
 ### 🔧 Docker Installation & Execution
 
@@ -60,7 +60,7 @@ Ensure you've got the following tools and environments set up:
 3. **Build the docker image**:
 
    ```bash
-    docker build -t data_pipeline_abn .
+    docker build -t Credit_Lending .
    ```
 4. **Run the docker image**:
 
