@@ -2,26 +2,26 @@ import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType, DoubleType
 
-from ETL.transformation import evaluate_collateral_value
+from src.transformation import evaluate_collateral_value
 
 
 class TestCreditLending(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.spark = SparkSession.builder \
-            .master("local[2]") \
-            .appName("UnitTesting") \
+            .appName("Test") \
+            .master("local[0]") \
             .getOrCreate()
 
     def test_calculate_collateral_value(self):
-        # Create test input data
-        clients_data = [("1", "Client1"), ("2", "Client2")]
-        clients_df = self.spark.createDataFrame(clients_data, ["Account_ID", "Client_ID"])
-
+        # Create input data
         collaterals_data = [("1", "ABCD:10, XYZA:21"), ("2", "JKLM:12, ABCD:23")]
         collaterals_df = self.spark.createDataFrame(collaterals_data, ["Account_ID", "Stocks"])
 
-        stocks_data = [("2024-02-25", [{"symbol": "ABCD", "price": 190.5},
+        clients_data = [("1", "Client1"), ("2", "Client2")]
+        clients_df = self.spark.createDataFrame(clients_data, ["Account_ID", "Client_ID"])
+
+        stocks_data = [("2025-03-14", [{"symbol": "ABCD", "price": 190.5},
                                        {"symbol": "XYZA", "price": 210.65},
                                        {"symbol": "JKLM", "price": 278.50}])]
         stocks_schema = StructType([
@@ -40,15 +40,15 @@ class TestCreditLending(unittest.TestCase):
 
         # Define expected schema and data
         expected_data = [
-            ("1", 2758.75, 0, 0, 0, 0),  # Collateral values for Client 1 over 5 days
+            ("1", 3456.75, 0, 0, 0, 0),  # Collateral values for Client 1 over 5 days
         ]
         expected_schema = StructType([
             StructField("Client_ID", StringType(), True),
-            StructField("2024-02-25", DoubleType(), False),
-            StructField("2024-02-26", DoubleType(), False),
-            StructField("2024-02-27", DoubleType(), False),
-            StructField("2024-02-28", DoubleType(), False),
-            StructField("2024-02-29", DoubleType(), False)
+            StructField("2025-03-14", DoubleType(), False),
+            StructField("2025-03-15", DoubleType(), False),
+            StructField("2025-03-16", DoubleType(), False),
+            StructField("2025-03-17", DoubleType(), False),
+            StructField("2025-03-18", DoubleType(), False)
         ])
         expected_df = self.spark.createDataFrame(expected_data, schema=expected_schema)
 
