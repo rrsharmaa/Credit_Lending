@@ -1,0 +1,42 @@
+[
+    {
+        "date": "2025-03-13",
+        "stocks": [
+            {"symbol": "ABCD", "price": 190.5},
+            {"symbol": "XYZA", "price": 210.65},
+            {"symbol": "JKLM", "price": 278.50}
+        ]
+    },
+    {
+        "date": "2025-03-14",
+        "stocks": [
+            {"symbol": "ABCD", "price": 180.5},
+            {"symbol": "XYZA", "price": 240.65},
+            {"symbol": "JKLM", "price": 288.50}
+        ]
+    },
+    {
+        "date": "2025-03-15",
+        "stocks": [
+            {"symbol": "ABCD", "price": 170.5},
+            {"symbol": "XYZA", "price": 200.65},
+            {"symbol": "JKLM", "price": 298.50}
+        ]
+    },
+    {
+        "date": "2025-03-16",
+        "stocks": [
+            {"symbol": "ABCD", "price": 191.5},
+            {"symbol": "XYZA", "price": 211.65},
+            {"symbol": "JKLM", "price": 278.50}
+        ]
+    },
+    {
+        "date": "2025-03-17",
+        "stocks": [
+            {"symbol": "ABCD", "price": 189.5},
+            {"symbol": "XYZA", "price": 201.65},
+            {"symbol": "JKLM", "price": 222.50}
+        ]
+    }
+]
