@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf
+from pyspark.sql.functions import udf, col, explode
 from pyspark.sql.types import StringType
 
 from etl.reading import load_csv, load_json
@@ -17,7 +17,10 @@ def main():
     logger = setup_logger(LOG_FILE)
 
     # Start Spark session
-    spark = SparkSession.builder.appName("DataPipeline").getOrCreate()
+    spark = SparkSession.builder.appName("DataPipeline") \
+            .master("local[*]") \
+            .config("spark.driver.host", "127.0.0.1") \
+            .getOrCreate()
     logger.info("Spark session started")
 
     # Paths to data
@@ -35,13 +38,17 @@ def main():
     #  Data Quality Check
     logger.info("Checking data quality")
     enhancer = QualityDataCheck(stocks_df)
-    cleaned_stocks_df = enhancer.trim_columns(["symbol"]).remove_duplicates(["date", "symbol"]).get_dataframe()
     canonicalize_symbol = udf(lambda x: x.upper() if x else None, StringType())
-    cleaned_stocks_df = enhancer.apply_transformation("symbol", canonicalize_symbol).get_dataframe()
-    cleaned_stocks_df.show()
+
+    # Explode and select
+    exploded_stocks_df = stocks_df.select(col("date"), explode(col("stocks")).alias("stock")) \
+        .select(col("date"), col("stock.symbol").alias("symbol"), col("stock.price").alias("price"))
+
+    # Apply transformation
+    cleaned_stocks_df = exploded_stocks_df.withColumn("symbol", canonicalize_symbol(col("symbol")))
 
     # Apply similar steps for CSV data
-    collaterals_df = spark.read.csv("/path/to/Collaterals.csv", header=True)
+    collaterals_df = load_csv(spark, collaterals_path)
     enhancer = QualityDataCheck(collaterals_df)
     cleaned_collaterals_df = enhancer.trim_columns(["Account_ID", "Savings", "Cars", "Stocks"]).remove_duplicates(
         ["Account_ID"]).get_dataframe()
@@ -53,7 +60,6 @@ def main():
     # Process data
     logger.info("Calculating collateral value")
     collateral_status_df = evaluate_collateral_value(clients_df, collaterals_df, stocks_df)
-    # df = spark.createDataFrame(collateral_status_df)
 
     # Save data
     logger.info(f"Saving results to {output_path}")
