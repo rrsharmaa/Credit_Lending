@@ -18,11 +18,6 @@ class QualityDataCheck:
         self.dataframe = self.dataframe.dropDuplicates(key_columns)
         return self
 
-    def apply_transformation(self, column: str, transformation) -> "QualityDataCheck":
-        """Apply a custom transformation function to a specified column."""
-        self.dataframe = self.dataframe.withColumn(column, transformation(col(column)))
-        return self
-
     def get_dataframe(self) -> DataFrame:
         """Return the transformed DataFrame."""
         return self.dataframe
