@@ -1,47 +1,68 @@
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, explode, split, sum as sum_
-from logger import setup_logger
+from pyspark.sql.functions import col, explode, split
+from pyspark.sql import functions as F
+from logger import setup_logger  # Ensure you have the logger setup module ready
 from constants import LOG_FILE
+# Set up the logger
+logger = setup_logger(LOG_FILE)
 
-# Initialize logger
-log = setup_logger(LOG_FILE)
 
 def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, stocks_df: DataFrame) -> DataFrame:
-    """Calculates the daily collateral value for each client based on their stock holdings."""
     try:
-        log.info("Calculating collateral values...")
+        logger.info("Starting to calculate collateral values.")
 
-        # Transform the collaterals dataframe
-        collaterals_df = (collaterals_df
-                          .withColumn("Symbol", split(col("Stocks"), ", ").getItem(0))
-                          .withColumn("Shares", split(col("Stocks"), ", ").getItem(1))
-                          .withColumn("Shares", split(col("Shares"), ":").getItem(1).cast("int"))
-                          .drop("Stocks"))
+        # Flatten the Stocks column into individual rows
+        collaterals_transformed_df = (collaterals_df
+                                      .withColumn("Stock", explode(split(col("Stocks"), ", ")))
+                                      .withColumn("Symbol", split(col("Stock"), ":").getItem(0))
+                                      .withColumn("number_of_share", split(col("Stock"), ":").getItem(1).cast("int"))
+                                      .drop("Stock", "Stocks"))
 
-        # Explode the stocks array to get individual stock prices
-        stocks_df = stocks_df.select(
-            col("date"), explode(col("stocks")).alias("stock")
+        logger.debug("Collaterals transformed dataframe:\n{}".format(collaterals_transformed_df.show()))
+
+        # Explode the stocks array
+        stocks_exploded = stocks_df.select(
+            col("date"),
+            explode(col("stocks")).alias("stock")
         ).select(
-            col("date"), col("stock.symbol").alias("Symbol"), col("stock.price").alias("Price")
+            col("date"),
+            col("stock.symbol").alias("Symbol"),
+            col("stock.price").alias("Price")
         )
 
-        # Compute daily collateral values
-        daily_collateral_df = (collaterals_df
-                               .join(stocks_df, "Symbol", "inner")
-                               .withColumn("daily_value", col("Shares") * col("Price"))
-                               .select("Account_ID", "date", "daily_value"))
+        logger.debug("Stocks exploded dataframe:\n{}".format(stocks_exploded.show()))
 
-        # Map collateral values to clients
-        result_df = (daily_collateral_df
-                     .join(clients_df, "Account_ID", "inner")
-                     .groupBy("Client_ID").pivot("date").agg(sum_("daily_value"))
-                     .na.fill(0))
+        # Join collaterals_df with stocks_exploded to calculate daily collateral values
+        daily_collateral_values = collaterals_transformed_df.join(
+            stocks_exploded,
+            collaterals_transformed_df.Symbol == stocks_exploded.Symbol,
+            'inner'
+        ).withColumn(
+            "daily_value",
+            F.col("number_of_share") * F.col("Price")
+        ).select("Account_ID", "date", "daily_value")
 
-        log.info("Collateral values computed successfully.")
-        result_df.show()
+        logger.debug("Daily collateral values:\n{}".format(daily_collateral_values.show()))
 
-        return result_df
+        # Join with clients and pivot the DataFrame to get the daily totals per client
+        daily_collateral_values_with_client = daily_collateral_values.join(
+            clients_df,
+            daily_collateral_values.Account_ID == clients_df.Account_ID,
+            "inner"
+        ).select(
+            clients_df.Client_ID,
+            "date",
+            "daily_value"
+        )
 
-    except Exception as err:
-        log.error(f"Error computing collateral values: {err}")
+        client_daily_totals = daily_collateral_values_with_client.groupBy("Client_ID").pivot("date").sum(
+            "daily_value").na.fill(0)
+
+        logger.info("Successfully calculated the daily totals per client.")
+        print('Target_Table : Collateral_status')
+        client_daily_totals.show()
+
+        return client_daily_totals
+    except Exception as e:
+        logger.error(f"Error in calculating collateral values: {e}")
         raise
