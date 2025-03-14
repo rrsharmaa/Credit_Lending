@@ -1,42 +1,42 @@
 [
     {
-        "date": "2025-03-13",
+        "date": "2025-02-25",
         "stocks": [
-            {"symbol": "ABCD", "price": 190.5},
-            {"symbol": "XYZA", "price": 210.65},
-            {"symbol": "JKLM", "price": 278.50}
+            {"symbol": "AAPL", "price": 150.5},
+            {"symbol": "MSFT", "price": 250.75},
+            {"symbol": "GOOGL", "price": 2750}
         ]
     },
     {
-        "date": "2025-03-14",
+        "date": "2025-02-26",
         "stocks": [
-            {"symbol": "ABCD", "price": 180.5},
-            {"symbol": "XYZA", "price": 240.65},
-            {"symbol": "JKLM", "price": 288.50}
+            {"symbol": "AAPL", "price": 152.0},
+            {"symbol": "MSFT", "price": 255.0},
+            {"symbol": "GOOGL", "price": 2775}
         ]
     },
     {
-        "date": "2025-03-15",
+        "date": "2025-02-27",
         "stocks": [
-            {"symbol": "ABCD", "price": 170.5},
-            {"symbol": "XYZA", "price": 200.65},
-            {"symbol": "JKLM", "price": 298.50}
+            {"symbol": "AAPL", "price": 148.0},
+            {"symbol": "MSFT", "price": 255.0},
+            {"symbol": "GOOGL", "price": 2700}
         ]
     },
     {
-        "date": "2025-03-16",
+        "date": "2025-02-28",
         "stocks": [
-            {"symbol": "ABCD", "price": 191.5},
-            {"symbol": "XYZA", "price": 211.65},
-            {"symbol": "JKLM", "price": 278.50}
+            {"symbol": "AAPL", "price": 151.0},
+            {"symbol": "MSFT", "price": 250.0},
+            {"symbol": "GOOGL", "price": 2730}
         ]
     },
     {
-        "date": "2025-03-17",
+        "date": "2025-02-29",
         "stocks": [
-            {"symbol": "ABCD", "price": 189.5},
-            {"symbol": "XYZA", "price": 201.65},
-            {"symbol": "JKLM", "price": 222.50}
+            {"symbol": "AAPL", "price": 153.5},
+            {"symbol": "MSFT", "price": 260.0},
+            {"symbol": "GOOGL", "price": 2800}
         ]
     }
 ]
