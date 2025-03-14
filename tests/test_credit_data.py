@@ -10,7 +10,7 @@ class TestCreditLending(unittest.TestCase):
     def setUpClass(cls):
         cls.spark = SparkSession.builder \
             .appName("Test") \
-            .master("local[0]") \
+            .master("local[*]") \
             .getOrCreate()
 
     def test_calculate_collateral_value(self):
