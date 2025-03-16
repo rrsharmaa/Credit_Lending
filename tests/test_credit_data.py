@@ -11,8 +11,6 @@ class DataProcessingTests(unittest.TestCase):
             .appName("UnitTesting") \
             .getOrCreate()
 
-        cls.spark.sparkContext._jsc.hadoopConfiguration().set("hadoop.home.dir", "C:\\hadoop")
-
     def test_calculate_collateral_value(self):
 
         # Create test input data
