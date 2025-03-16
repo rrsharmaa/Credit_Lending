@@ -1,7 +1,6 @@
 import unittest
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, explode, split, lit, sum as sum_
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, ArrayType, DoubleType
+from pyspark.sql.types import StructType, StructField, StringType, ArrayType, DoubleType
 from etl.transformation import evaluate_collateral_value
 
 class DataProcessingTests(unittest.TestCase):
@@ -14,6 +13,7 @@ class DataProcessingTests(unittest.TestCase):
             .getOrCreate()
 
     def test_calculate_collateral_value(self):
+
         # Create test input data
         clients_data = [("1", "Client1"), ("2", "Client2")]
         clients_df = self.spark.createDataFrame(clients_data, ["Account_ID", "Client_ID"])
