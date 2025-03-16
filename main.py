@@ -19,7 +19,6 @@ def main():
     # Start Spark session
     spark = SparkSession.builder.appName("DataPipeline") \
             .master("local[*]") \
-            .config("spark.driver.host", "127.0.0.1") \
             .getOrCreate()
     logger.info("Spark session started")
 
