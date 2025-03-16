@@ -55,12 +55,15 @@ def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, 
             "daily_value"
         )
 
-        client_daily_totals = daily_collateral_values_with_client.groupBy("Client_ID").pivot("date").sum(
-            "daily_value").na.fill(0)
+        client_daily_totals = daily_collateral_values_with_client \
+            .groupBy("Client_ID", "Date") \
+            .agg(F.sum("Daily_Value").alias("Daily_value")) \
+            .orderBy("Client_ID", "date") \
+            .na.fill(0)
 
         logger.info("Successfully calculated the daily totals per client.")
         print('Target_Table : Collateral_status')
-        client_daily_totals.show()
+        # client_daily_totals.show()
 
         return client_daily_totals
     except Exception as e:
