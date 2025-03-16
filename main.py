@@ -48,7 +48,6 @@ def main():
     cleaned_stocks_df = exploded_stocks_df.withColumn("symbol", canonicalize_symbol(col("symbol")))
 
     # Apply similar steps for CSV data
-    collaterals_df = load_csv(spark, collaterals_path)
     enhancer = QualityDataCheck(collaterals_df)
     cleaned_collaterals_df = enhancer.trim_columns(["Account_ID", "Savings", "Cars", "Stocks"]).remove_duplicates(
         ["Account_ID"]).get_dataframe()
