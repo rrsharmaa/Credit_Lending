@@ -18,7 +18,7 @@ def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, 
                                       .withColumn("number_of_share", split(col("Stock"), ":").getItem(1).cast("int"))
                                       .drop("Stock", "Stocks"))
 
-        logger.debug("Collaterals transformed dataframe:\n{}".format(collaterals_transformed_df.show()))
+        logger.debug("Collaterals transformed dataframe:\n{}".format(collaterals_transformed_df))
 
         # Explode the stocks array
         stocks_exploded = stocks_df.select(
@@ -30,7 +30,7 @@ def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, 
             col("stock.price").alias("Price")
         )
 
-        logger.debug("Stocks exploded dataframe:\n{}".format(stocks_exploded.show()))
+        logger.debug("Stocks exploded dataframe:\n{}".format(stocks_exploded))
 
         # Join collaterals_df with stocks_exploded to calculate daily collateral values
         daily_collateral_values = collaterals_transformed_df.join(
@@ -42,7 +42,7 @@ def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, 
             F.col("number_of_share") * F.col("Price")
         ).select("Account_ID", "date", "daily_value")
 
-        logger.debug("Daily collateral values:\n{}".format(daily_collateral_values.show()))
+        logger.debug("Daily collateral values:\n{}".format(daily_collateral_values))
 
         # Join with clients and pivot the DataFrame to get the daily totals per client
         daily_collateral_values_with_client = daily_collateral_values.join(
