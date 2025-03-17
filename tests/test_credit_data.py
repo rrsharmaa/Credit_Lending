@@ -46,8 +46,8 @@ class DataProcessingTests(unittest.TestCase):
         ])
         expected_df = self.spark.createDataFrame(expected_data, schema=expected_schema)
 
-        # Compare the schema
-        self.assertEqual(result_df.schema, expected_df.schema)
+        # Compare the data
+        self.assertEqual(result_df.collect(), expected_df.collect())
 
     @classmethod
     def tearDownClass(cls):
