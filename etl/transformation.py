@@ -62,8 +62,6 @@ def evaluate_collateral_value(clients_df: DataFrame, collaterals_df: DataFrame, 
             .na.fill(0)
 
         logger.info("Successfully calculated the daily totals per client.")
-        print('Target_Table : Collateral_status')
-        # client_daily_totals.show()
 
         return client_daily_totals
     except Exception as e:
