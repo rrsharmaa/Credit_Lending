@@ -38,7 +38,9 @@ class DataProcessingTests(unittest.TestCase):
         result_df = evaluate_collateral_value(clients_df, collaterals_df, stocks_df)
 
         # Define expected schema and data
-        expected_data = [("1", "2025-02-25", 2758.75)]
+        expected_data = [("Client1", "2025-02-25", 2758.75),
+                         ("Client2", "2025-02-25", 24257.50)
+                         ]
         expected_schema = StructType([
             StructField("Client_ID", StringType(), True),
             StructField("Date", StringType(), True),
@@ -46,6 +48,9 @@ class DataProcessingTests(unittest.TestCase):
         ])
         expected_df = self.spark.createDataFrame(expected_data, schema=expected_schema)
 
+        # Sort both DataFrames by Account_ID to ensure they are in the same order
+        result_df = result_df.orderBy("Client_ID")
+        expected_df = expected_df.orderBy("Client_ID")
         # Compare the data
         self.assertEqual(result_df.collect(), expected_df.collect())
 
