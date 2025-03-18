@@ -1,6 +1,6 @@
 # THE Credit Lending Project
 
-This project is a data pipeline application built with PySpark for data processing tasks. It ingests data from various sources, performs necessary transformations, and stores the processed data.
+This project is a credit lending application built with PySpark for data processing tasks. It ingests data from various sources, performs necessary transformations, and stores the processed data.
 
 
 ## 🚀 Getting Started
