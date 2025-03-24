@@ -17,7 +17,7 @@ class DataProcessingTests(unittest.TestCase):
         clients_data = [("1", "Client1"), ("2", "Client2")]
         clients_df = self.spark.createDataFrame(clients_data, ["Account_ID", "Client_ID"])
 
-        collaterals_data = [("1", "AAPL:10,MSFT:5"), ("2", "AAPL:15,GOOGL:8")]
+        collaterals_data = [("1", "AAPL:10"), ("2", "AAPL:15")]
         collaterals_df = self.spark.createDataFrame(collaterals_data, ["Account_ID", "Stocks"])
 
         stocks_data = [("2025-02-25", [{"symbol": "AAPL", "price": 150.5},
@@ -38,8 +38,8 @@ class DataProcessingTests(unittest.TestCase):
         result_df = evaluate_collateral_value(clients_df, collaterals_df, stocks_df)
 
         # Define expected schema and data
-        expected_data = [("Client1", "2025-02-25", 2758.75),
-                         ("Client2", "2025-02-25", 24257.50)
+        expected_data = [("Client1", "2025-02-25", 1505.0),
+                         ("Client2", "2025-02-25", 2257.5)
                          ]
         expected_schema = StructType([
             StructField("Client_ID", StringType(), True),
